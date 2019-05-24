@@ -18,5 +18,14 @@
   "bugs": {
     "url": "https://github.com/marc757try/oput/issues"
   },
-  "homepage": "https://github.com/marc757try/oput#readme"
+  "homepage": "https://github.com/marc757try/oput#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
 }
