@@ -1,0 +1,22 @@
+{
+  "name": "oput",
+  "version": "1.0.0",
+  "description": "record",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"testing...\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marc757try/oput.git"
+  },
+  "keywords": [
+    "parser"
+  ],
+  "author": "m",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marc757try/oput/issues"
+  },
+  "homepage": "https://github.com/marc757try/oput#readme"
+}
