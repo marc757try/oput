@@ -8,7 +8,6 @@
     "lint": "eslint .",
     "start": "index.js",
     "deploy": ""
-
   },
   "repository": {
     "type": "git",
@@ -23,7 +22,9 @@
     "url": "https://github.com/marc757try/oput/issues"
   },
   "homepage": "https://github.com/marc757try/oput#readme",
-  "dependencies": {},
+  "dependencies": {
+    "osmosis": "^1.1.10"
+  },
   "devDependencies": {
     "eslint": "^5.16.0",
     "eslint-config-standard": "^12.0.0",
