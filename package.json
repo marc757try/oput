@@ -4,7 +4,9 @@
   "description": "record",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"testing...\""
+    "test": "echo \"testing...\"",
+    "lint": "eslint .",
+
   },
   "repository": {
     "type": "git",
