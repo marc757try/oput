@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"testing...\"",
     "lint": "eslint .",
+    "start": "index.js",
+    "deploy": ""
 
   },
   "repository": {
