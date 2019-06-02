@@ -1,40 +1,42 @@
-'use strict'
-var TelegramBot = require('node-telegram-bot-api');
+const express = require('express')
+const axios = require('axios')
+const { JSDOM } = require('jsdom')
+const bodyParser = require('body-parser')
+const https=require('https')
 
+const token = process.env.WEATHER_BOT
+const appUrl = process.env.APP_URL
 
-var token = '852827328:AAFOqo07RxcZJkItZj8PxwFi2tCrZ7k6Rzs';
+const setWebhook = url => axios.get(`https://api.telegram.org/bot${token}/setWebhook?url=${url}`)
+const sendMessage = (chatId, text) => axios.get(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`)
+const parseCurs = async (date) => {
+  const {
+    window: { document },
+  } = await JSDOM.fromURL('https://privatbank.ua', {
+    resources: 'usable',
+    runScripts: 'dangerously',
+  })
+  const tabs = Array.from(document.querySelectorAll('.main'))
+  const tab = tabs.filter(el => el.querySelector('.day-link').getAttribute('data-link').includes(date))[0]
+  return tab ? tab.querySelector('.dol').textContent : 'no info'
+};
 
-var bot = new TelegramBot(token, {polling: true});
-var notes=[]
-const osmosis=require('osmosis')
-osmosis
-   .get('https://privatbank.ua')
-   .find('.resourcescontent ul.app-card-grid')
-   .follow('li a[href]')
-   .find('.resourcescontent')
-   .set({
-       'appname': '.app-header__details h1',
-       'email': '#AppInfo table tbody tr:nth-child(2) td > a'
-    })
-   .log(console.log)   
-   .data(console.log)
-
-bot.onText(/напомни (.+) в (.+)/, function (msg, match) {
-  var userId = msg.from.id;
-  var text = match[1];
-  var time = match[2];
-
-  notes.push({ 'uid': userId, 'time': time, 'text': text });
-
-  bot.sendMessage(userId, 'Отлично! :)');
-});
-setInterval(function(){
-  for (var i = 0; i < notes.length; i++){
-      var curDate = new Date().getHours() + ':' + new Date().getMinutes();
-          if ( notes[i]['time'] == curDate ) {
-              bot.sendMessage(notes[i]['uid'], 'Напоминаю, что вы должны: '+ notes[i]['text'] + ' сейчас.');
-              notes.splice(i,1);
-          }
-      }
-},1000);
-
+const app = express()
+app.use(bodyParser.json())
+app.post('/telegram', (req, res) => {
+  const {
+    text,
+    chat: { id },
+  } = req.body.message
+  parseCurs(text).then(
+    curs => sendMessage(id, curs),
+    () => sendMessage(id, 'error'),
+  )
+  res.send()
+})
+app.get('*', (_req, res) => {
+  res.send(' Express.js')
+})
+app.listen(process.env.PORT || 3000, () => {
+  setWebhook(`${appUrl}/telegram`)
+})
