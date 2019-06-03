@@ -1,28 +1,30 @@
 const express = require('express')
 const axios = require('axios')
-const { JSDOM } = require('jsdom')
+//const { JSDOM } = require('jsdom')
+const request = require("request"),
+ const   cheerio = require("cheerio"),
 const bodyParser = require('body-parser')
 const https=require('https')
 
-const token = process.env.WEATHER_BOT
+const token = process.env.CURS_BOT
 const appUrl = process.env.APP_URL
 
 const setWebhook = url => axios.get(`https://api.telegram.org/bot${token}/setWebhook?url=${url}`)
 const sendMessage = (chatId, text) => axios.get(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`)
-const parseCurs = async (date) => {
-  const {
-    window: { document },
-  } = await JSDOM.fromURL('https://privatbank.ua', {
-    resources: 'usable',
-    runScripts: 'dangerously',
-  })
-  const tabs = Array.from(document.querySelectorAll('.main'))
-  const tab = tabs.filter(el => el.querySelector('.day-link').getAttribute('data-link').includes(date))[0]
-  return tab ? tab.querySelector('.dol').textContent : 'no info'
-};
+const parseCurs = ()=>{
+  url = "https://privatbank.ua/"
 
+  request(url, function (error, response, body) {
+      if (!error) {
+          const $ = cheerio.load(body),
+              curs = $("#USD_buy").text()
+             // b = $("#USD_sell").text()
+                  }
+      else { return }
+  }
+}
 const app = express()
-app.use(bodyParser.json())
+//app.use(bodyParser.json())
 app.post('/telegram', (req, res) => {
   const {
     text,
