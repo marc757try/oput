@@ -17,9 +17,11 @@ const parseCurs = async (date) => {
     resources: 'usable',
     runScripts: 'dangerously',
   });
-  const docp = Array.from(document.querySelectorAll('.main'));
-  const doc = docp.filter(el => el.querySelector('.content_conteiner_index');
-  return doc ? doc.querySelector('.').textContent : 'no info';
+  //const docp = Array.from(document.querySelectorAll('.main'));
+  //const doc = docp.filter(el => el.querySelector('.content_conteiner_index').getAttribute();
+  //return doc ? doc.querySelector('.').textContent : 'no info';
+  const p_curs = document.getElementById("USD_buy").textContent;
+return p_curs;
 };
 
 const app = express();
