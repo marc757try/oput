@@ -1,13 +1,15 @@
+process.env.NTBA_FIX_319 = 1
+const TelegramBot = require('node-telegram-bot-api')
 const express = require('express');
 const axios = require('axios');
 const { JSDOM } = require('jsdom');
 const bodyParser = require('body-parser');
 
-const token = process.env.CURS_BOT;
+const TOKEN = process.env.CURS_BOT;
 const appUrl = process.env.APP_URL;
 
-const setWebhook = url => axios.get(`https://api.telegram.org/bot${token}/setWebhook?url=${url}`);
-const sendMessage = (chatId, text) => axios.get(`https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`);
+const setWebhook = url => axios.get(`https://api.telegram.org/bot${TOKEN}/setWebhook?url=${url}`);
+const sendMessage = (chatId, text) => axios.get(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`);
 const parseCurs = async (date) => {
   const {
     window: { document },
@@ -36,6 +38,7 @@ app.post('/telegram', (req, res) => {
 app.get('*', (_req, res) => {
   res.send('Express.js');
 });
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3000, () => {     //PORT=8443
   setWebhook(`${appUrl}/telegram`);
 });
+
